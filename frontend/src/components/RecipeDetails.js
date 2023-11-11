@@ -1,5 +1,5 @@
 // components/RecipeDetails.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -10,12 +10,13 @@ const RecipeDetails = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`/api/recipes/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/recipes/${id}`);
         setRecipe(response.data);
       } catch (error) {
         console.error('Error fetching recipe details:', error);
       }
     };
+    
 
     fetchRecipe();
   }, [id]);

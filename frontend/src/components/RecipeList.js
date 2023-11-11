@@ -9,7 +9,7 @@ const RecipeList = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('/api/recipes');
+        const response = await axios.get('http://localhost:5000/api/recipes');
         setRecipes(response.data);
       } catch (error) {
         console.error('Error fetching recipes:', error);
@@ -19,16 +19,56 @@ const RecipeList = () => {
     fetchRecipes();
   }, []);
 
+  const handleDelete = async (recipeId) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/recipes/${recipeId}`);
+  
+      if (response.status === 200) {
+        setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe._id !== recipeId));
+      } else {
+        console.error('Error deleting recipe:', response.data.message);
+        alert('Error deleting recipe. Please try again later.');
+      }
+    } catch (error) {
+      console.error('Error deleting recipe:', error.message);
+      alert('Error deleting recipe. Please try again later.');
+    }
+  };
+  
+  
+
   return (
     <div className="container mt-4">
       <h2>Recipe List</h2>
-      <ul className="list-group">
+      <div className="row row-cols-1 row-cols-md-2 g-4">
         {recipes.map((recipe) => (
-          <li key={recipe._id} className="list-group-item">
-            <Link to={`/recipe/${recipe._id}`}>{recipe.recipeName}</Link>
-          </li>
+          <div key={recipe._id} className="col">
+            <div className="card">
+              <div className="card-body">
+              <h5 className="card-title">{recipe.recipeName}</h5>
+                <p className="card-text">Ingredients: {recipe.ingredients}</p>
+                <p className="card-text">Description: {recipe.description}</p>
+                <div className="d-flex justify-content-between">
+                  <Link to={`/recipe/${recipe._id}`} className="btn btn-primary">
+                    View Details
+                  </Link>
+                  <div>
+                    <button
+                      className="btn btn-danger me-2"
+                      onClick={() => handleDelete(recipe._id)}
+                    >
+                      Delete
+                    </button>
+                    <Link to={`/edit/${recipe._id}`} className="btn btn-warning">
+                      Edit
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

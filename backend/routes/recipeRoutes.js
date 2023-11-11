@@ -57,14 +57,26 @@ router.patch('/:id', getRecipe, async (req, res) => {
 });
 
 // Delete a recipe
-router.delete('/:id', getRecipe, async (req, res) => {
+router.delete('/:id', async (req, res) => {
+  const recipeId = req.params.id;
+
   try {
-    await res.recipe.remove();
-    res.json({ message: 'Recipe deleted' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+    const result = await Recipe.deleteOne({ _id: recipeId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
+    res.json({ message: 'Recipe deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting recipe:', error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 });
+
+
+
+
 
 async function getRecipe(req, res, next) {
   let recipe;
