@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 const RecipeForm = ({ history }) => {
   const [recipe, setRecipe] = useState({
     recipeName: '',
@@ -18,15 +19,18 @@ const RecipeForm = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      await axios.post('/api/recipes', recipe);
+      console.log('Submitting recipe:', recipe);
+      await axios.post('http://localhost:5000/api/recipes', recipe);  // Update the URL as needed
       // Optionally, you can redirect the user to the recipe list page after successful submission
       history.push('/');
     } catch (error) {
       console.error('Error submitting recipe:', error);
     }
   };
+  
+  
 
   return (
     <div className="container mt-4">
