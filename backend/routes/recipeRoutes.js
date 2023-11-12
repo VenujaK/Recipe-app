@@ -35,26 +35,23 @@ router.post('/', async (req, res) => {
 });
 
 // Update a recipe
-router.patch('/:id', getRecipe, async (req, res) => {
-  if (req.body.recipeName != null) {
-    res.recipe.recipeName = req.body.recipeName;
-  }
-
-  if (req.body.ingredients != null) {
-    res.recipe.ingredients = req.body.ingredients;
-  }
-
-  if (req.body.description != null) {
-    res.recipe.description = req.body.description;
-  }
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
 
   try {
-    const updatedRecipe = await res.recipe.save();
+    const updatedRecipe = await Recipe.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!updatedRecipe) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+
     res.json(updatedRecipe);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+  } catch (error) {
+    console.error('Error updating recipe:', error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
   }
 });
+
 
 // Delete a recipe
 router.delete('/:id', async (req, res) => {

@@ -20,11 +20,23 @@ const RecipeList = () => {
   }, []);
 
   const handleDelete = async (recipeId) => {
+    // Display a confirmation dialog
+    const shouldDelete = window.confirm('Are you sure you want to delete this recipe?');
+  
+    if (!shouldDelete) {
+      return; // Do nothing if the user cancels the deletion
+    }
+  
     try {
+      // Send the DELETE request to the server
       const response = await axios.delete(`http://localhost:5000/api/recipes/${recipeId}`);
   
       if (response.status === 200) {
+        // If deletion is successful, update the local state and refresh the page
         setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe._id !== recipeId));
+  
+        // Reload the current page
+        window.location.reload();
       } else {
         console.error('Error deleting recipe:', response.data.message);
         alert('Error deleting recipe. Please try again later.');
@@ -35,7 +47,7 @@ const RecipeList = () => {
     }
   };
   
-  
+
 
   return (
     <div className="container mt-4">
@@ -45,7 +57,7 @@ const RecipeList = () => {
           <div key={recipe._id} className="col">
             <div className="card">
               <div className="card-body">
-              <h5 className="card-title">{recipe.recipeName}</h5>
+                <h5 className="card-title">{recipe.recipeName}</h5>
                 <p className="card-text">Ingredients: {recipe.ingredients}</p>
                 <p className="card-text">Description: {recipe.description}</p>
                 <div className="d-flex justify-content-between">
@@ -62,6 +74,7 @@ const RecipeList = () => {
                     <Link to={`/edit/${recipe._id}`} className="btn btn-warning">
                       Edit
                     </Link>
+
                   </div>
                 </div>
               </div>

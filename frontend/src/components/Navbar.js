@@ -3,6 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const handleRefresh = () => {
+    window.location.reload(); // Reload the current page
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link className="navbar-brand" to="/">
@@ -14,6 +18,11 @@ const Navbar = () => {
             <Link className="nav-link" to="/add">
               Add a Recipe
             </Link>
+          </li>
+          <li className="nav-item">
+            <button className="btn btn-light" onClick={handleRefresh}>
+              Refresh
+            </button>
           </li>
         </ul>
       </div>
