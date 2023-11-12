@@ -19,7 +19,7 @@ const RecipeDetails = () => {
 
     fetchRecipe();
   }, [id]);
-
+//recipe details section
   return (
     <div className="container mt-4">
       <h2>Recipe Details</h2>

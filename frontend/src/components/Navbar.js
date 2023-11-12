@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+//to reload the page
 const Navbar = () => {
   const handleRefresh = () => {
     window.location.reload(); 

@@ -71,10 +71,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-
-
-
-
+// error handling
 async function getRecipe(req, res, next) {
   let recipe;
   try {
