@@ -1,10 +1,9 @@
-// components/Navbar.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const handleRefresh = () => {
-    window.location.reload(); // Reload the current page
+    window.location.reload(); 
   };
 
   return (

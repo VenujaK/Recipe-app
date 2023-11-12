@@ -1,4 +1,3 @@
-// components/RecipeList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -20,22 +19,17 @@ const RecipeList = () => {
   }, []);
 
   const handleDelete = async (recipeId) => {
-    // Display a confirmation dialog
     const shouldDelete = window.confirm('Are you sure you want to delete this recipe?');
   
     if (!shouldDelete) {
-      return; // Do nothing if the user cancels the deletion
+      return; 
     }
   
     try {
-      // Send the DELETE request to the server
       const response = await axios.delete(`http://localhost:5000/api/recipes/${recipeId}`);
   
       if (response.status === 200) {
-        // If deletion is successful, update the local state and refresh the page
         setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe._id !== recipeId));
-  
-        // Reload the current page
         window.location.reload();
       } else {
         console.error('Error deleting recipe:', response.data.message);
